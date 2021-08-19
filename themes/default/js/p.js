@@ -1,0 +1,1 @@
+function nv_del_content(n,e,_){return confirm(nv_is_del_confirm[0])&&$.post(_+"index.php?"+nv_lang_variable+"="+nv_lang_data+"&"+nv_name_variable+"="+nv_module_name+"&"+nv_fc_variable+"=del&nocache="+(new Date).getTime(),"id="+n+"&checkss="+e,function(n){"OK"==n.split("_")[0]?window.location.href=strHref:alert(nv_is_del_confirm[2])}),!1}

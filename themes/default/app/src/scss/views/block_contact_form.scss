@@ -1,0 +1,81 @@
+@import '../core/vars';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/tooltip';
+@import '../core/datepicker';
+
+.inner-alert {
+  align-items: center;
+  display: flex;
+  line-height: 1;
+
+  .fnt-icon {
+    font-size: 1rem;
+    margin-right: 8px;
+  }
+}
+
+.fnt-spinner-circle {
+  animation: 0.8s linear infinite spinner-circle;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  border-right-color: rgba(255, 255, 255, 0.3);
+  height: 1em;
+  transition: $transition-base;
+  width: 1em;
+}
+
+.fnt-contact-form {
+  &-submit {
+    align-items: center;
+    display: inline-flex;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    position: relative;
+
+    .fnt-spinner-circle {
+      $spinner-size: 18px;
+      display: none;
+      font-size: $spinner-size;
+      left: 50%;
+      margin-left: -$spinner-size/2;
+      margin-top: -$spinner-size/2;
+      position: absolute;
+      top: 50%;
+    }
+
+    &.loading {
+      span:not(.fnt-spinner-circle),
+      i {
+        opacity: 0;
+      }
+
+      .fnt-spinner-circle {
+        display: unset;
+      }
+    }
+  }
+
+  &-alert {
+    font-size: 0.875rem;
+    left: 50%;
+    margin: 0;
+    pointer-events: none;
+    position: fixed;
+    top: calc(var(--header-height) + 10px);
+    transform: translateX(-50%);
+    z-index: 2000;
+  
+    @include media-breakpoint-up(md) {
+      --header-height: 80px;
+    }
+  }
+}
+
+@keyframes spinner-circle {
+  to {
+    transform: rotate(360deg);
+  }
+}

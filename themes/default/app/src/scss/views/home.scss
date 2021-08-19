@@ -1,0 +1,369 @@
+@import '../core/vars';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+@import 'swiper/swiper.scss';
+@import 'swiper/components/lazy/lazy.scss';
+@import 'swiper/components/navigation/navigation.scss';
+@import 'swiper/components/pagination/pagination.scss';
+@import 'swiper/components/effect-fade/effect-fade.scss';
+
+.fnt-tab {
+  > .nav-tabs {
+    justify-content: center;
+
+    .nav-link {
+      border: 0;
+      color: $text-color;
+      font-family: $font-title;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 1rem 2rem;
+      position: relative;
+      text-transform: uppercase;
+
+      &::before {
+        background-color: $primary-color;
+        bottom: 0;
+        content: '';
+        height: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        transition: all 0.2s ease;
+      }
+
+      &.active {
+        color: $primary-color;
+      }
+
+      &.active,
+      &:hover {
+        &::before {
+          height: 3px;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    > .nav-tabs {
+      .nav-item {
+        margin-right: 1rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.swiper-lazy-preloader-black {
+  --swiper-preloader-color: #c8c8c8;
+}
+
+.swiper-pagination-bullet {
+  transition: $transition-base;
+}
+
+.fnt-swiper-slider {
+  --swiper-navigation-color: #ffffff;
+  --swiper-navigation-size: 100%;
+
+  [class^='swiper-button-'] {
+    background: rgba(255, 255, 255, 0.3);
+    bottom: 0;
+    margin: 0;
+    top: 0;
+    transition: $transition-base;
+    width: 80px;
+
+    &::after {
+      font-size: 38px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  .swiper-button {
+    &-next {
+      right: 0;
+    }
+
+    &-prev {
+      left: 0;
+    }
+  }
+
+  .swiper-pagination {
+    &-bullet {
+      background: #ffffff;
+      border: 2px solid transparent;
+      height: 16px;
+      opacity: 0.7;
+      width: 16px;
+
+      &-active {
+        border-color: $info;
+        opacity: 1;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    [class^='swiper-button-'] {
+      opacity: 0;
+    }
+
+    .swiper-button {
+      &-next {
+        transform: matrix3d(0, 0, 1, -0.01, 0, 1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1);
+        transform-origin: right center;
+      }
+
+      &-prev {
+        transform: matrix3d(0, 0, 1, 0.01, 0, 1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1);
+        transform-origin: left center;
+      }
+    }
+
+    &:hover {
+      [class^='swiper-button-'] {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+}
+
+.fnt-product-block-tab {
+  .fnt-product-image {
+    @include media-breakpoint-up(xl) {
+      height: 120px;
+    }
+  }
+}
+
+.fnt-home-slider-item {
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  img {
+    height: 100%;
+    object-fit: cover;
+    text-indent: -9999px;
+    transition: $transition-base;
+    width: 100%;
+
+    &:not(.swiper-lazy-loaded) {
+      opacity: 0;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    height: 500px;
+  }
+}
+
+.fnt-home-widget {
+  .fnt-widget-title {
+    text-align: center;
+
+    &::after {
+      height: 3px;
+      left: 50%;
+      margin-left: -30px;
+    }
+  }
+}
+
+.fnt-web-function {
+  @include media-breakpoint-down(md) {
+    margin-top: var(--bs-gutter-x, 0.75rem);
+  }
+}
+
+.fnt-web-function-link {
+  background: #f8f9fa;
+  border-radius: 5px;
+  color: #686868;
+  padding: 1.5rem;
+
+  .fnt-icon {
+    font-size: 2.2rem;
+  }
+
+  span {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    background-color: $primary-color;
+    color: #fff;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: 1rem;
+
+    .fnt-icon {
+      font-size: 2rem;
+    }
+
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.fnt-blog-info {
+  color: #a0a6b1;
+  font-size: 14px;
+  line-height: 1;
+  margin: calc(1rem - 5px) 0 1rem;
+
+  .fnt-icon {
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+
+  [class^='fnt-blog-'] {
+    margin-right: 1.5rem;
+    margin-top: 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.fnt-blog-col {
+  margin-bottom: var(--bs-gutter-x);
+}
+
+.fnt-blog-card {
+  &-title {
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    a {
+      color: $text-color;
+      text-decoration: none;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  &-description {
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-img {
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    height: 300px;
+    overflow: hidden;
+
+    .fnt-blog-list & {
+      @include media-breakpoint-up(lg) {
+        flex: none;
+        width: 300px;
+      }
+    }
+
+    a {
+      display: block;
+      height: 100%;
+
+      &:hover {
+        img {
+          opacity: 0.9;
+          transform: scale3d(1.1, 1.1, 1);
+        }
+      }
+    }
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      transition: all 1s ease-in-out;
+      width: 100%;
+    }
+
+    &.fnt-block-blog-grid {
+      @include media-breakpoint-up(xl) {
+        height: 200px;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    .fnt-blog-grid & {
+      height: 100%;
+    }
+  }
+}
+
+.fnt-product {
+  &-col {
+    margin-bottom: var(--bs-gutter-x);
+  }
+
+  &-item {
+    cursor: pointer;
+
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &-image {
+    height: 200px;
+    overflow: hidden;
+    padding: 1rem;
+
+    img {
+      height: 100%;
+      object-fit: contain;
+      transition: $transition-base;
+      width: 100%;
+    }
+  }
+
+  &-title {
+    -webkit-box-orient: vertical;
+    color: $primary-color;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    h6 {
+      margin: 0;
+    }
+  }
+}

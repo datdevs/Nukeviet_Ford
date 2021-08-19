@@ -1,0 +1,679 @@
+@import '../core/vars';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/tables';
+@import 'bootstrap/scss/pagination';
+@import 'bootstrap/scss/badge';
+@import 'bootstrap/scss/list-group';
+
+@import 'swiper/swiper.scss';
+@import 'swiper/components/lazy/lazy.scss';
+@import 'swiper/components/thumbs/thumbs.scss';
+@import 'swiper/components/effect-fade/effect-fade.scss';
+
+$lg-path-fonts: 'lightgallery.js/src/fonts';
+$lg-path-images: 'lightgallery.js/src/img';
+$zindex-outer: 2000;
+$zindex-backdrop: 1900;
+@import 'lightgallery.js/src/sass/lg-variables';
+@import 'lightgallery.js/src/sass/lg-mixins';
+@import 'lightgallery.js/src/sass/lg-fonts';
+@import 'lightgallery.js/src/sass/lg-theme-default';
+@import 'lightgallery.js/src/sass/lg-thumbnail';
+@import 'lightgallery.js/src/sass/lg-zoom';
+@import 'lightgallery.js/src/sass/lg-pager';
+@import 'lightgallery.js/src/sass/lg-fullscreen';
+@import 'lightgallery.js/src/sass/lg-transitions';
+
+.lg-group {
+  *zoom: 1;
+}
+
+.lg-group:before,
+.lg-group:after {
+  content: '';
+  display: table;
+  line-height: 0;
+}
+
+.lg-group:after {
+  clear: both;
+}
+
+// lightgallery core
+.lg-outer {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  outline: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: $zindex-outer;
+  @include transition(opacity 0.15s ease 0s);
+
+  * {
+    @include box-sizing(border-box);
+  }
+
+  &.lg-visible {
+    opacity: 1;
+  }
+
+  // Set transition speed and timing function
+  &.lg-css3 {
+    .lg-item {
+      &.lg-prev-slide,
+      &.lg-next-slide,
+      &.lg-current {
+        @include transition-duration(inherit !important);
+        @include transition-timing-function(inherit !important);
+      }
+    }
+  }
+
+  // Remove transition while dragging
+  &.lg-css3.lg-dragging {
+    .lg-item {
+      &.lg-prev-slide,
+      &.lg-next-slide,
+      &.lg-current {
+        opacity: 1;
+        @include transition-duration(0s !important);
+      }
+    }
+  }
+
+  // Set cursor grab while dragging
+  &.lg-grab {
+    img.lg-object {
+      @include grab-cursor;
+    }
+  }
+
+  &.lg-grabbing {
+    img.lg-object {
+      @include grabbing-cursor;
+    }
+  }
+
+  .lg {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .lg-inner {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .lg-item {
+    background: url('#{$lg-path-images}/loading.gif') no-repeat scroll center center transparent;
+    display: none !important;
+  }
+
+  &.lg-css3 {
+    .lg-prev-slide,
+    .lg-current,
+    .lg-next-slide {
+      display: inline-block !important;
+    }
+  }
+
+  &.lg-css {
+    .lg-current {
+      display: inline-block !important;
+    }
+  }
+
+  .lg-item,
+  .lg-img-wrap {
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 50%;
+      margin-right: -1px;
+      width: 1px;
+    }
+  }
+
+  .lg-img-wrap {
+    bottom: 0;
+    left: 0;
+    padding: 0 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .lg-item {
+    &.lg-complete {
+      background-image: none;
+    }
+
+    &.lg-current {
+      z-index: $zindex-item;
+    }
+  }
+
+  .lg-image {
+    display: inline-block;
+    height: auto !important;
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+    width: auto !important;
+  }
+
+  &.lg-show-after-load {
+    .lg-item {
+      .lg-object,
+      .lg-video-play {
+        opacity: 0;
+        @include transition(opacity 0.15s ease 0s);
+      }
+
+      &.lg-complete {
+        .lg-object,
+        .lg-video-play {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  // Hide title div if empty
+  .lg-empty-html {
+    display: none;
+  }
+
+  &.lg-hide-download {
+    #lg-download {
+      display: none;
+    }
+  }
+}
+
+.lg-backdrop {
+  background-color: #000;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: $zindex-backdrop;
+  @include transition(opacity 0.15s ease 0s);
+
+  &.in {
+    opacity: $backdrop-opacity;
+  }
+}
+
+// Default slide animations. Should be placed at the bottom of the animation css
+.lg-css3 {
+  // Remove all transition effects
+  &.lg-no-trans {
+    .lg-prev-slide,
+    .lg-next-slide,
+    .lg-current {
+      @include transitionCustom(none 0s ease 0s !important);
+    }
+  }
+
+  &.lg-use-css3 {
+    .lg-item {
+      @include backface-visibility(hidden);
+    }
+  }
+
+  &.lg-use-left {
+    .lg-item {
+      @include backface-visibility(hidden);
+    }
+  }
+
+  // Fade mode
+  &.lg-fade {
+    .lg-item {
+      opacity: 0;
+
+      &.lg-current {
+        opacity: 1;
+      }
+
+      // transition timing property and duration will be over written from javascript
+      &.lg-prev-slide,
+      &.lg-next-slide,
+      &.lg-current {
+        @include transitionCustom(opacity 0.1s ease 0s);
+      }
+    }
+  }
+
+  &.lg-slide {
+    &.lg-use-css3 {
+      .lg-item {
+        opacity: 0;
+
+        &.lg-prev-slide {
+          @include translate3d(-100%, 0, 0);
+        }
+
+        &.lg-next-slide {
+          @include translate3d(100%, 0, 0);
+        }
+
+        &.lg-current {
+          opacity: 1;
+          @include translate3d(0, 0, 0);
+        }
+
+        // transition timing property and duration will be over written from javascript
+        &.lg-prev-slide,
+        &.lg-next-slide,
+        &.lg-current {
+          @include transitionCustom(transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+        }
+      }
+    }
+
+    &.lg-use-left {
+      .lg-item {
+        left: 0;
+        opacity: 0;
+        position: absolute;
+
+        &.lg-prev-slide {
+          left: -100%;
+        }
+
+        &.lg-next-slide {
+          left: 100%;
+        }
+
+        &.lg-current {
+          left: 0;
+          opacity: 1;
+        }
+
+        // transition timing property and duration will be over written from javascript
+        &.lg-prev-slide,
+        &.lg-next-slide,
+        &.lg-current {
+          @include transitionCustom(left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s);
+        }
+      }
+    }
+  }
+}
+
+.fnt-pagination {
+  .pagination {
+    margin: 0;
+  }
+}
+
+.fnt-product-sort {
+  .form-select {
+    margin-left: 1rem;
+    width: 180px;
+  }
+}
+
+.fnt-product {
+  &-col {
+    margin-bottom: var(--bs-gutter-x);
+  }
+
+  &-item {
+    cursor: pointer;
+
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &-image {
+    height: 200px;
+    overflow: hidden;
+    padding: 1rem;
+
+    img {
+      height: 100%;
+      object-fit: contain;
+      transition: $transition-base;
+      width: 100%;
+    }
+  }
+
+  &-title {
+    -webkit-box-orient: vertical;
+    color: $primary-color;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    h6 {
+      margin: 0;
+    }
+  }
+
+  &-specifications {
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    table {
+      --bs-table-bg: transparent;
+      --bs-table-striped-color: #495057;
+      --bs-table-striped-bg: #f8f9fa;
+      border-color: #eff2f7;
+      color: #495057;
+      margin-bottom: 1rem;
+      vertical-align: top;
+      width: 100%;
+    }
+
+    table > :not(caption) > * > * {
+      background-color: var(--bs-table-bg);
+      border-bottom-width: 1px;
+      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+      padding: 1rem;
+    }
+
+    table > tbody {
+      vertical-align: inherit;
+    }
+
+    table > thead {
+      vertical-align: bottom;
+    }
+
+    table > :not(:last-child) > :last-child > * {
+      border-bottom-color: currentColor;
+    }
+
+    table > :not(caption) > * {
+      border-width: 1px 0;
+    }
+
+    table > :not(caption) > * > * {
+      border-width: 0 1px;
+    }
+
+    table > tbody > tr:nth-of-type(odd) {
+      --bs-table-accent-bg: var(--bs-table-striped-bg);
+      color: var(--bs-table-striped-color);
+    }
+  }
+}
+
+.fnt-product-detail {
+  &-img {
+    img {
+      flex: none;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+      text-indent: -9999px;
+
+      &:not(.swiper-lazy-loaded) {
+        opacity: 0;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      height: 500px;
+    }
+  }
+
+  &-money {
+    color: $primary-color;
+  }
+
+  &-description {
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    table {
+      --bs-table-bg: transparent;
+      --bs-table-striped-color: #495057;
+      --bs-table-striped-bg: #f8f9fa;
+      border-color: #eff2f7;
+      color: #495057;
+      margin-bottom: 1rem;
+      vertical-align: top;
+      width: 100%;
+    }
+
+    table > :not(caption) > * > * {
+      background-color: var(--bs-table-bg);
+      border-bottom-width: 1px;
+      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+      padding: 1rem;
+    }
+
+    table > tbody {
+      vertical-align: inherit;
+    }
+
+    table > thead {
+      vertical-align: bottom;
+    }
+
+    table > :not(:last-child) > :last-child > * {
+      border-bottom-color: currentColor;
+    }
+
+    table > :not(caption) > * {
+      border-width: 1px 0;
+    }
+
+    table > :not(caption) > * > * {
+      border-width: 0 1px;
+    }
+
+    table > tbody > tr:nth-of-type(odd) {
+      --bs-table-accent-bg: var(--bs-table-striped-bg);
+      color: var(--bs-table-striped-color);
+    }
+  }
+
+  &-button-call {
+    .btn {
+      background-color: $primary-color;
+      background-image: linear-gradient(160deg, $primary-color 0%, #0d9fee 100%);
+      border: 0;
+      color: #ffffff;
+      font-size: 1.5rem;
+      padding: 1rem;
+      text-transform: uppercase;
+      width: 100%;
+    }
+
+    .fnt-icon {
+      animation: call-shake 5s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite both;
+      backface-visibility: hidden;
+      font-size: 1.8rem;
+      margin-right: 0.8rem;
+      perspective: 1000px;
+      transform: scale(1);
+    }
+  }
+}
+
+.fnt-image {
+  &-wrapper {
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      transition: all 1s ease-in-out;
+      width: 100%;
+    }
+
+    &:hover img {
+      transform: scale(1.2);
+    }
+  }
+
+  &-hover {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: all 0.35s ease-in-out;
+    user-select: none;
+    width: 100%;
+    z-index: 10;
+
+    &::before,
+    &::after {
+      background-color: #fff;
+      content: '';
+      position: absolute;
+      text-align: center;
+      transition: 0.35s ease-in-out;
+      z-index: 2;
+    }
+
+    &::before {
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      width: 60px;
+    }
+
+    &::after {
+      height: 60px;
+      transform: scaleY(0);
+      transform-origin: top;
+      width: 2px;
+    }
+
+    .fnt-image-wrapper:hover & {
+      opacity: 1;
+
+      &::before {
+        transform: scaleX(1);
+        transition-delay: 0.2s;
+      }
+
+      &::after {
+        transform: scaleY(1);
+        transition-delay: 0.2s;
+      }
+    }
+  }
+}
+
+.swiper-lazy-preloader-black {
+  --swiper-preloader-color: #c8c8c8;
+}
+
+.fnt-product-image {
+  &-thumbs-swiper {
+    padding: 1rem 0;
+  }
+}
+
+.fnt-product-detail-thumbs {
+  border: 1px solid #f0efef;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 1rem;
+  transition: $transition-base;
+
+  .swiper-slide-thumb-active &,
+  &:hover {
+    border-color: $primary-color;
+  }
+}
+
+.fnt-product-compare {
+  .table {
+    @include media-breakpoint-up(lg) {
+      table-layout: fixed;
+    }
+  }
+
+  .fnt-product-detail-description,
+  .fnt-product-specifications {
+    table {
+      margin-bottom: 0;
+    }
+
+    td:first-child {
+      display: none;
+    }
+  }
+
+  &-img {
+    img {
+      height: 200px;
+      max-width: 100%;
+      object-fit: contain;
+      width: 320px;
+    }
+  }
+}
+
+@keyframes call-shake {
+  10%,
+  90% {
+    transform: scale(1.05);
+  }
+
+  20%,
+  80% {
+    transform: scale(1.1);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: scale(1.05);
+  }
+
+  40%,
+  60% {
+    transform: scale(1.1);
+  }
+}

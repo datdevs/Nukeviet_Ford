@@ -1,0 +1,60 @@
+@import '../core/vars';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+.fnt-blog-title {
+  font-size: calc(1.5rem + 1.5vw);
+  margin-bottom: 1rem;
+
+  @include media-breakpoint-up(xl) {
+    font-size: 2.8rem;
+  }
+}
+
+.fnt-blog-info {
+  color: #a0a6b1;
+  font-size: 14px;
+  line-height: 1;
+  margin: calc(1rem - 5px) 0 1rem;
+
+  .fnt-icon {
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+
+  [class^='fnt-blog-'] {
+    margin-right: 1.5rem;
+    margin-top: 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.fnt-blog-content {
+  margin-bottom: 2rem;
+  word-break: keep-all;
+}
+
+.fnt-blog-image {
+  &.float-start {
+    margin-right: 2rem;
+    width: 45%;
+  }
+}
+
+.fnt-blog-admin {
+  .btn {
+    align-items: center;
+    display: inline-flex;
+    line-height: 1;
+
+    i {
+      font-size: 18px;
+      margin-right: 5px;
+    }
+  }
+}
